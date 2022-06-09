@@ -10,28 +10,28 @@ BeerModel _$BeerModelFromJson(Map<String, dynamic> json) => BeerModel(
       id: json['id'] as int,
       name: json['name'] as String,
       tagline: json['tagline'] as String,
-      firstBrewed: json['firstBrewed'] as String,
+      firstBrewed: json['first_brewed'] as String,
       description: json['description'] as String,
-      imageUrl: json['imageUrl'] as String,
+      imageUrl: json['image_url'] as String,
       abv: json['abv'] as num?,
       ibu: json['ibu'] as num?,
-      targetFg: json['targetFg'] as num?,
-      targetOg: json['targetOg'] as num?,
+      targetFg: json['target_fg'] as num?,
+      targetOg: json['target_og'] as num?,
       ebc: json['ebc'] as num?,
       srm: json['srm'] as num?,
       ph: json['ph'] as num?,
-      attenuationLevel: json['attenuationLevel'] as num,
+      attenuationLevel: json['attenuation_level'] as num,
       volume: ValueUnitModel.fromJson(json['volume'] as Map<String, dynamic>),
       boilVolume:
-          ValueUnitModel.fromJson(json['boilVolume'] as Map<String, dynamic>),
+          ValueUnitModel.fromJson(json['boil_volume'] as Map<String, dynamic>),
       method: MethodModel.fromJson(json['method'] as Map<String, dynamic>),
       ingredients: IngredientsModel.fromJson(
           json['ingredients'] as Map<String, dynamic>),
-      foodPairing: (json['foodPairing'] as List<dynamic>)
+      foodPairing: (json['food_pairing'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      brewersTips: json['brewersTips'] as String,
-      contributedBy: json['contributedBy'] as String,
+      brewersTips: json['brewers_tips'] as String,
+      contributedBy: json['contributed_by'] as String,
     );
 
 Map<String, dynamic> _$BeerModelToJson(BeerModel instance) => <String, dynamic>{

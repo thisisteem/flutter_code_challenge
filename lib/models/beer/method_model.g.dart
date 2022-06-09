@@ -7,7 +7,7 @@ part of 'method_model.dart';
 // **************************************************************************
 
 MethodModel _$MethodModelFromJson(Map<String, dynamic> json) => MethodModel(
-      mashTemp: (json['mashTemp'] as List<dynamic>)
+      mashTemp: (json['mash_temp'] as List<dynamic>)
           .map((e) => MashTempModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       fermentation: FermentationModel.fromJson(
