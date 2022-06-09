@@ -1,7 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'ingredients_model.dart';
 import 'method_model.dart';
 import 'value_unit_model.dart';
 
+part 'beer_model.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class BeerModel {
   final int id;
   final String name;
@@ -9,14 +14,14 @@ class BeerModel {
   final String firstBrewed;
   final String description;
   final String imageUrl;
-  final double? abv;
-  final double? ibu;
-  final double? targetFg;
-  final double? targetOg;
-  final double? ebc;
-  final double? srm;
-  final double? ph;
-  final double attenuationLevel;
+  final num? abv;
+  final num? ibu;
+  final num? targetFg;
+  final num? targetOg;
+  final num? ebc;
+  final num? srm;
+  final num? ph;
+  final num attenuationLevel;
   final ValueUnitModel volume;
   final ValueUnitModel boilVolume;
   final MethodModel method;
@@ -49,27 +54,8 @@ class BeerModel {
     required this.contributedBy,
   });
 
-  factory BeerModel.fromJson(Map<String, dynamic> json) => BeerModel(
-        id: json["id"],
-        name: json["name"],
-        tagline: json["tagline"],
-        firstBrewed: json["firstBrewed"],
-        description: json["description"],
-        imageUrl: json["imageUrl"],
-        abv: json["abv"],
-        ibu: json["ibu"],
-        targetFg: json["targetFg"],
-        targetOg: json["targetOg"],
-        ebc: json["ebc"],
-        srm: json["srm"],
-        ph: json["ph"],
-        attenuationLevel: json["attenuationLevel"],
-        volume: json["volume"],
-        boilVolume: json["boilVolume"],
-        method: json["method"],
-        ingredients: json["ingredients"],
-        foodPairing: json["foodPairing"],
-        brewersTips: json["brewersTips"],
-        contributedBy: json["contributedBy"],
-      );
+  factory BeerModel.fromJson(Map<String, dynamic> json) =>
+      _$BeerModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BeerModelToJson(this);
 }
