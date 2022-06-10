@@ -7,8 +7,8 @@ class YourBeersTheme {
     return ThemeData(
       brightness: Brightness.light,
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.amber,
+        backgroundColor: Colors.brown,
+        foregroundColor: Colors.white,
         elevation: 0,
       ),
       textTheme: textTheme,
