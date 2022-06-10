@@ -1,1 +1,1 @@
-const appTitle = 'Beers';
+const appTitle = 'Your Beers';
