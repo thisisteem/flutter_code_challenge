@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../functions/ebc_to_color_code.dart';
 import '/constants/texts.dart';
 import '/models/beer_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -69,9 +70,9 @@ class _BeerListState extends State<BeerList> {
         child: InkWell(
           onTap: () => {},
           child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               border: Border(
-                left: BorderSide(color: Colors.green, width: 15),
+                left: BorderSide(color: ebcToColorCode(beer.ebc), width: 16),
               ),
             ),
             child: Row(
