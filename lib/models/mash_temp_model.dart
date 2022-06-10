@@ -1,7 +1,7 @@
 import 'value_unit_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'mash_temp.g.dart';
+part 'mash_temp_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class MashTempModel {

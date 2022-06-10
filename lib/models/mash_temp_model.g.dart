@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mash_temp.dart';
+part of 'mash_temp_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
