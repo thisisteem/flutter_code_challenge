@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'fermentation_model.dart';
-import 'mash_temp.dart';
+import 'mash_temp_model.dart';
 
 part 'method_model.g.dart';
 
