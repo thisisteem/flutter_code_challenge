@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../functions/ebc_to_color_code.dart';
+
 class YourBeersTheme {
   static ThemeData themeData() {
     return ThemeData(
       brightness: Brightness.light,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
+      appBarTheme: AppBarTheme(
+        backgroundColor: HexColor("FFC600"),
+        foregroundColor: Colors.black87,
         elevation: 0,
       ),
       textTheme: textTheme,
