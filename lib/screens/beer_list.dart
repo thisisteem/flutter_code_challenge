@@ -58,7 +58,7 @@ class _BeerListState extends State<BeerList> {
 
   Widget _buildBeer(BeerModel beer) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 7, 16, 7),
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
       height: MediaQuery.of(context).size.height * 0.22,
       child: Card(
         margin: EdgeInsets.zero,
