@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_code_challenge/constants/texts.dart';
-import 'package:flutter_code_challenge/models/beer/beer_model.dart';
+import '/constants/texts.dart';
+import '/models/beer_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class BeerList extends StatefulWidget {
   const BeerList({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _BeerListState extends State<BeerList> {
               itemCount: data!.length,
               itemBuilder: (context, index) {
                 BeerModel beer = snapshot.data![index];
-                return Text(beer.name);
+                return _buildBeer(beer);
               },
             );
           } else {
@@ -50,6 +51,131 @@ class _BeerListState extends State<BeerList> {
           }
         },
         future: getBeers(),
+      ),
+    );
+  }
+
+  Widget _buildBeer(BeerModel beer) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 7, 16, 7),
+      height: MediaQuery.of(context).size.height * 0.22,
+      child: Card(
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: InkWell(
+          onTap: () => {},
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                left: BorderSide(color: Colors.green, width: 15),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CachedNetworkImage(
+                    height: 130,
+                    imageUrl: beer.imageUrl,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                beer.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(color: Colors.black87),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                splashColor: Colors.transparent,
+                                splashRadius: 1,
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.favorite,
+                                  color: Colors.pinkAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          beer.tagline,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(
+                                  color: Colors.grey,
+                                  fontStyle: FontStyle.italic),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'ABV: ${beer.abv}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(color: Colors.black87),
+                            ),
+                            Text(
+                              'IBU: ${beer.ibu}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(color: Colors.black87),
+                            ),
+                            Text(
+                              'pH: ${beer.ph}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(color: Colors.black87),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right_sharp,
+                  color: Colors.grey,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
