@@ -16,67 +16,67 @@ class YourBeersTheme {
   }
 
   static TextTheme textTheme = TextTheme(
-    displayLarge: GoogleFonts.kanit(
+    displayLarge: GoogleFonts.sourceSansPro(
       fontSize: 24.sp,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
-    displayMedium: GoogleFonts.kanit(
+    displayMedium: GoogleFonts.sourceSansPro(
       fontSize: 24.sp,
       fontWeight: FontWeight.w500,
       color: Colors.black,
     ),
-    displaySmall: GoogleFonts.kanit(
+    displaySmall: GoogleFonts.sourceSansPro(
       fontSize: 24.sp,
       fontWeight: FontWeight.w300,
       color: Colors.black,
     ),
-    headlineLarge: GoogleFonts.kanit(
+    headlineLarge: GoogleFonts.sourceSansPro(
       fontSize: 22.sp,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
-    headlineMedium: GoogleFonts.kanit(
+    headlineMedium: GoogleFonts.sourceSansPro(
       fontSize: 22.sp,
       fontWeight: FontWeight.w500,
       color: Colors.black,
     ),
-    headlineSmall: GoogleFonts.kanit(
+    headlineSmall: GoogleFonts.sourceSansPro(
       fontSize: 22.sp,
       fontWeight: FontWeight.w300,
       color: Colors.black,
     ),
-    bodyLarge: GoogleFonts.kanit(
+    bodyLarge: GoogleFonts.sourceSansPro(
       fontSize: 18.sp,
       fontWeight: FontWeight.w600,
       color: Colors.black,
       letterSpacing: 0.01.sp,
     ),
-    bodyMedium: GoogleFonts.kanit(
+    bodyMedium: GoogleFonts.sourceSansPro(
       fontSize: 18.sp,
       fontWeight: FontWeight.w500,
       color: Colors.black,
       letterSpacing: 0.01.sp,
     ),
-    bodySmall: GoogleFonts.kanit(
+    bodySmall: GoogleFonts.sourceSansPro(
       fontSize: 18.sp,
       fontWeight: FontWeight.w300,
       color: Colors.black,
       letterSpacing: 0.01.sp,
     ),
-    labelLarge: GoogleFonts.kanit(
+    labelLarge: GoogleFonts.sourceSansPro(
       fontSize: 16.sp,
       fontWeight: FontWeight.w600,
       color: Colors.black,
       letterSpacing: 0.01.sp,
     ),
-    labelMedium: GoogleFonts.kanit(
+    labelMedium: GoogleFonts.sourceSansPro(
       fontSize: 16.sp,
       fontWeight: FontWeight.w500,
       color: Colors.black,
       letterSpacing: 0.01.sp,
     ),
-    labelSmall: GoogleFonts.kanit(
+    labelSmall: GoogleFonts.sourceSansPro(
       fontSize: 16.sp,
       fontWeight: FontWeight.w300,
       color: Colors.black,
