@@ -1,4 +1,4 @@
-import 'package:flutter_code_challenge/models/beer/hops_model.dart';
+import 'hops_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'malt_model.dart';
 

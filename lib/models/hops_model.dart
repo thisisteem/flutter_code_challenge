@@ -1,4 +1,4 @@
-import 'package:flutter_code_challenge/models/beer/value_unit_model.dart';
+import 'value_unit_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'hops_model.g.dart';
