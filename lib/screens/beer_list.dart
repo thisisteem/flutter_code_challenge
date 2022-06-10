@@ -137,7 +137,7 @@ class _BeerListState extends State<BeerList> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .labelSmall!
+                              .labelMedium!
                               .copyWith(
                                   color: Colors.grey,
                                   fontStyle: FontStyle.italic),
@@ -153,7 +153,7 @@ class _BeerListState extends State<BeerList> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .labelSmall!
+                                  .labelMedium!
                                   .copyWith(color: Colors.black87),
                             ),
                             Text(
@@ -162,7 +162,7 @@ class _BeerListState extends State<BeerList> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .labelSmall!
+                                  .labelMedium!
                                   .copyWith(color: Colors.black87),
                             ),
                             Text(
@@ -171,7 +171,7 @@ class _BeerListState extends State<BeerList> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .labelSmall!
+                                  .labelMedium!
                                   .copyWith(color: Colors.black87),
                             ),
                           ],
