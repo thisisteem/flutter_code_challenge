@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_code_challenge/screens/beer_detail.dart';
 import 'package:http/http.dart' as http;
 import '../functions/ebc_to_color_code.dart';
 import '/constants/texts.dart';
@@ -68,7 +69,16 @@ class _BeerListState extends State<BeerList> {
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: InkWell(
-          onTap: () => {},
+          onTap: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BeerDetail(
+                  beer: beer,
+                ),
+              ),
+            ),
+          },
           child: Container(
             decoration: BoxDecoration(
               border: Border(
