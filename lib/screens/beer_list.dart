@@ -136,7 +136,9 @@ class _BeerListState extends State<BeerList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'ABV: ${beer.abv}',
+                              beer.abv != null
+                                  ? 'ABV: ${beer.abv} %'
+                                  : 'ABV: -',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: Theme.of(context)
@@ -145,7 +147,7 @@ class _BeerListState extends State<BeerList> {
                                   .copyWith(color: Colors.black87),
                             ),
                             Text(
-                              'IBU: ${beer.ibu}',
+                              beer.ibu != null ? 'IBU: ${beer.ibu}' : 'IBU: -',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: Theme.of(context)
@@ -154,7 +156,7 @@ class _BeerListState extends State<BeerList> {
                                   .copyWith(color: Colors.black87),
                             ),
                             Text(
-                              'pH: ${beer.ph}',
+                              beer.ph != null ? 'pH: ${beer.ph}' : 'pH: -',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: Theme.of(context)
