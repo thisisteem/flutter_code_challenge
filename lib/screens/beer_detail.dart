@@ -47,27 +47,31 @@ class _BeerDetailState extends State<BeerDetail> {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.white,
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: Colors.grey,
-                ),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.favorite,
+                color: Colors.pinkAccent,
               ),
             ),
           ),
         ],
       ),
-      body: ListView(
+      body: Stack(
         children: [
-          _buildHeaderInfo(),
-          _buildTagLine(),
-          _buildDescription(),
-          _buildFoorPairing(),
-          _buildIngredients(),
+          ListView(
+            children: [
+              _buildHeaderInfo(),
+              _buildTagLine(),
+              _buildDescription(),
+              _buildFoorPairing(),
+              _buildIngredients(),
+            ],
+          ),
+          // Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: _buildFavoriteButton(),
+          // ),
         ],
       ),
     );
@@ -77,7 +81,7 @@ class _BeerDetailState extends State<BeerDetail> {
     return Container(
       height: 250,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: colorPrimaryDefault,
       ),
       child: Padding(

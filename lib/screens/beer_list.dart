@@ -328,7 +328,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                                 splashRadius: 1,
                                 onPressed: () {},
                                 icon: const Icon(
-                                  Icons.favorite,
+                                  Icons.favorite_border,
                                   color: Colors.pinkAccent,
                                 ),
                               ),
