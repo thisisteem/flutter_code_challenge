@@ -23,7 +23,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
   late List<BeerModel> _allBeers = [];
   late List<BeerModel> _foundBeers = [];
   bool _isSortAscending = true;
-  String sortDropdownValue = 'Beer Color';
+  String sortDropdownValue = 'Beer color';
   final List<FoodChipModel> _foodsSuggestion = [
     FoodChipModel(label: 'Salad', icon: Icons.dinner_dining),
     FoodChipModel(label: 'Beef', icon: Icons.emoji_food_beverage),
@@ -31,6 +31,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     FoodChipModel(label: 'Fish', icon: Icons.fastfood),
     FoodChipModel(label: 'Burger', icon: Icons.cake),
   ];
+  final List<String> _sortList = ['Beer color', 'Name', 'ABV', 'IBU', 'pH'];
 
   late AnimationController _controller;
   final _searchController = TextEditingController();
@@ -99,7 +100,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
       (a, b) {
         int result;
         switch (sortDropdownValue) {
-          case 'name':
+          case 'Name':
             result = _isSortAscending
                 ? a.name.compareTo(b.name)
                 : b.name.compareTo(a.name);
@@ -230,8 +231,8 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                       _sortFilter();
                     });
                   },
-                  items: <String>['Beer Color', 'name', 'ABV', 'IBU', 'pH']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items:
+                      _sortList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(
