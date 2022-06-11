@@ -67,8 +67,10 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
 
   void _searchFilter(String enteredKeyword) {
     List<BeerModel> results = [];
+    List<BeerModel> uniqueResult = [];
+
     if (enteredKeyword.isEmpty) {
-      results = _allBeers;
+      uniqueResult = _allBeers;
     } else {
       results = _allBeers.where(
         (beer) {
@@ -97,9 +99,12 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
           }
         }
       }
+
+      var seen = <String>{};
+      uniqueResult = results.where((beer) => seen.add(beer.name)).toList();
     }
     setState(() {
-      _foundBeers = results;
+      _foundBeers = uniqueResult;
     });
   }
 
