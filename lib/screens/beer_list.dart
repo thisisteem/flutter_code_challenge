@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_code_challenge/components/skeleton_container.dart';
 import 'package:flutter_code_challenge/constants/colors.dart';
 import 'package:flutter_code_challenge/screens/beer_detail.dart';
 import 'package:http/http.dart' as http;
@@ -272,7 +273,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
           future: _getBeerFuture,
           builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return _buildSkeleton();
             } else if (snapshot.hasError) {
               return Text('😔 ${snapshot.error}');
             } else if (snapshot.hasData) {
@@ -604,6 +605,58 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
           _searchFilter(label);
         },
       ),
+    );
+  }
+
+  Widget _buildSkeleton() {
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
+          // height: MediaQuery.of(context).size.height * 0.22,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SkeletonContainer.square(
+                width: 100,
+                height: 100,
+              ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SkeletonContainer.square(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: 16,
+                  ),
+                  const SizedBox(height: 8),
+                  SkeletonContainer.square(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: 12,
+                  ),
+                  const SizedBox(height: 30),
+                  SkeletonContainer.square(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: 6,
+                  ),
+                  const SizedBox(height: 8),
+                  SkeletonContainer.square(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: 6,
+                  ),
+                  const SizedBox(height: 8),
+                  SkeletonContainer.square(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: 6,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
