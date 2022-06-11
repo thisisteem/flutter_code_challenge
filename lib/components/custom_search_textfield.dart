@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../functions/ebc_to_color_code.dart';
+import '../constants/colors.dart';
 
 class CustomSearchTextField<T> extends StatelessWidget {
   final String? textLabel;
@@ -51,9 +51,9 @@ class CustomSearchTextField<T> extends StatelessWidget {
           ),
           suffixIconConstraints:
               const BoxConstraints(minWidth: 10, minHeight: 10),
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.search,
-            color: HexColor("F4B733"),
+            color: colorPrimaryDefault,
           ),
           filled: true,
           fillColor: Colors.white,
@@ -64,7 +64,7 @@ class CustomSearchTextField<T> extends StatelessWidget {
               .copyWith(color: Colors.grey),
           contentPadding: const EdgeInsets.only(left: 14.0, right: 14),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("F4B733")),
+            borderSide: const BorderSide(color: colorPrimaryDefault),
             borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(

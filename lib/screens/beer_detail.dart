@@ -5,6 +5,7 @@ import 'package:flutter_code_challenge/models/beer_model.dart';
 
 import '../components/bullet_list.dart';
 import '../components/bullet_list_for_hops.dart';
+import '../constants/colors.dart';
 import '../functions/ebc_to_color_code.dart';
 
 class BeerDetail extends StatefulWidget {
@@ -77,7 +78,7 @@ class _BeerDetailState extends State<BeerDetail> {
       height: 250,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: HexColor("F4B733"),
+        color: colorPrimaryDefault,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
