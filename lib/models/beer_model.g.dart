@@ -32,6 +32,7 @@ BeerModel _$BeerModelFromJson(Map<String, dynamic> json) => BeerModel(
           .toList(),
       brewersTips: json['brewers_tips'] as String,
       contributedBy: json['contributed_by'] as String,
+      isFavorite: false,
     );
 
 Map<String, dynamic> _$BeerModelToJson(BeerModel instance) => <String, dynamic>{

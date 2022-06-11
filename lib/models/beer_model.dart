@@ -29,6 +29,7 @@ class BeerModel {
   final List<String> foodPairing;
   final String brewersTips;
   final String contributedBy;
+  bool isFavorite;
 
   BeerModel({
     required this.id,
@@ -52,6 +53,7 @@ class BeerModel {
     required this.foodPairing,
     required this.brewersTips,
     required this.contributedBy,
+    required this.isFavorite,
   });
 
   factory BeerModel.fromJson(Map<String, dynamic> json) =>
