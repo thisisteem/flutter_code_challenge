@@ -25,6 +25,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
   late List<BeerModel> _foundBeers = [];
   bool _isSortAscending = true;
   String sortDropdownValue = 'Beer color';
+
   final List<FoodChipModel> _foodsSuggestion = [
     FoodChipModel(label: 'Salad', icon: Icons.dinner_dining),
     FoodChipModel(label: 'Beef', icon: Icons.emoji_food_beverage),
@@ -32,6 +33,15 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     FoodChipModel(label: 'Fish', icon: Icons.fastfood),
     FoodChipModel(label: 'Burger', icon: Icons.cake),
   ];
+
+  final List<FoodChipModel> _beerSuggestion = [
+    FoodChipModel(label: 'IPA', icon: null),
+    FoodChipModel(label: 'Porter', icon: null),
+    FoodChipModel(label: 'Lager', icon: null),
+    FoodChipModel(label: 'Pale Ale', icon: null),
+    FoodChipModel(label: 'Wheat Beer', icon: null),
+  ];
+
   final List<String> _sortList = [
     'Beer color',
     'Name',
@@ -292,19 +302,32 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Scrollbar(
-                            isAlwaysShown: true,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: IntrinsicHeight(
                               child: Row(
-                                children: _foodsSuggestion
-                                    .map(
-                                      (food) => _buildChip(
-                                        food.label,
-                                        food.icon,
-                                      ),
-                                    )
-                                    .toList(),
+                                children: [
+                                  const Text('Food Pairing'),
+                                  ..._foodsSuggestion.map(
+                                    (food) => _buildChip(
+                                      food.label,
+                                      food.icon,
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 6),
+                                    child: VerticalDivider(
+                                      thickness: 2,
+                                    ),
+                                  ),
+                                  const Text('Recommend Beer'),
+                                  ..._beerSuggestion.map(
+                                    (food) => _buildChip(
+                                      food.label,
+                                      food.icon,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -579,37 +602,59 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildChip(String label, IconData icon) {
+  Widget _buildChip(String label, IconData? icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: FilterChip(
-        selectedColor: Colors.green,
-        avatar: Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: Icon(
-            icon,
-            color: Colors.black87,
-          ),
-        ),
-        label: Text(
-          label,
-          style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                color: Colors.black87,
+      child: icon != null
+          ? FilterChip(
+              selectedColor: Colors.green,
+              avatar: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Icon(
+                  icon,
+                  color: Colors.black87,
+                ),
               ),
-        ),
-        backgroundColor: Colors.transparent,
-        shape: const StadiumBorder(
-          side: BorderSide(color: colorPrimaryDefault, width: 1),
-        ),
-        pressElevation: 0,
-        onSelected: (bool value) {
-          _dismissKeyboard();
-          _searchController.text = label;
-          _searchController.selection = TextSelection.fromPosition(
-              TextPosition(offset: _searchController.text.length));
-          _searchFilter(label);
-        },
-      ),
+              label: Text(
+                label,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: Colors.black87,
+                    ),
+              ),
+              backgroundColor: Colors.transparent,
+              shape: const StadiumBorder(
+                side: BorderSide(color: colorPrimaryDefault, width: 1),
+              ),
+              pressElevation: 0,
+              onSelected: (bool value) {
+                _dismissKeyboard();
+                _searchController.text = label;
+                _searchController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: _searchController.text.length));
+                _searchFilter(label);
+              },
+            )
+          : FilterChip(
+              selectedColor: Colors.green,
+              label: Text(
+                label,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: Colors.black87,
+                    ),
+              ),
+              backgroundColor: Colors.transparent,
+              shape: const StadiumBorder(
+                side: BorderSide(color: colorPrimaryDefault, width: 1),
+              ),
+              pressElevation: 0,
+              onSelected: (bool value) {
+                _dismissKeyboard();
+                _searchController.text = label;
+                _searchController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: _searchController.text.length));
+                _searchFilter(label);
+              },
+            ),
     );
   }
 
