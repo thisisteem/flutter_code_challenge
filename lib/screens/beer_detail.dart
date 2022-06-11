@@ -8,9 +8,18 @@ import '../components/bullet_list_for_hops.dart';
 import '../constants/colors.dart';
 import '../functions/ebc_to_color_code.dart';
 
+typedef BoolIntVoidFunc = void Function(bool, int);
+
 class BeerDetail extends StatefulWidget {
   final BeerModel beer;
-  const BeerDetail({Key? key, required this.beer}) : super(key: key);
+  final VoidCallback update;
+  final BoolIntVoidFunc onPressedFavorite;
+  const BeerDetail({
+    Key? key,
+    required this.beer,
+    required this.update,
+    required this.onPressedFavorite,
+  }) : super(key: key);
 
   @override
   _BeerDetailState createState() => _BeerDetailState();
@@ -48,9 +57,15 @@ class _BeerDetailState extends State<BeerDetail> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.favorite,
+              onPressed: () async {
+                widget.onPressedFavorite(beer.isFavorite, beer.id);
+                setState(() {
+                  beer.isFavorite = !beer.isFavorite;
+                  widget.update();
+                });
+              },
+              icon: Icon(
+                beer.isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: Colors.pinkAccent,
               ),
             ),

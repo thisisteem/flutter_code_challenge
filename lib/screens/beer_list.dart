@@ -6,6 +6,7 @@ import 'package:flutter_code_challenge/screens/beer_detail.dart';
 import 'package:http/http.dart' as http;
 import '../functions/ebc_to_color_code.dart';
 import '../models/food_chip_model.dart';
+import '../utils/favorite_beer_preferences.dart';
 import '/constants/texts.dart';
 import '/models/beer_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -37,9 +38,17 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
   Future<List<BeerModel>> getBeers() async {
     const url = 'https://api.punkapi.com/v2/beers';
     final response = await http.get(Uri.parse(url));
+    var favoriteBeerList = FavoriteBeerPreferences.getFavorite();
 
     List<dynamic> data = jsonDecode(response.body);
     _allBeers = data.map((data) => BeerModel.fromJson(data)).toList();
+
+    for (var beer in _allBeers) {
+      if (favoriteBeerList.contains(beer.id.toString())) {
+        beer.isFavorite = true;
+      }
+    }
+
     _foundBeers = _allBeers;
 
     _sortFilter();
@@ -143,6 +152,18 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
         }
       },
     );
+  }
+
+  void _onPressedFavorite(bool isFavorite, int id) async {
+    if (isFavorite) {
+      await FavoriteBeerPreferences.removeFromFavorite(id.toString());
+    } else {
+      await FavoriteBeerPreferences.addToFavorite(id.toString());
+    }
+  }
+
+  void _reloadPage() {
+    setState(() {});
   }
 
   @override
@@ -279,6 +300,8 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
               MaterialPageRoute(
                 builder: (context) => BeerDetail(
                   beer: beer,
+                  update: _reloadPage,
+                  onPressedFavorite: _onPressedFavorite,
                 ),
               ),
             ),
@@ -326,9 +349,16 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                                 constraints: const BoxConstraints(),
                                 splashColor: Colors.transparent,
                                 splashRadius: 1,
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.favorite_border,
+                                onPressed: () async {
+                                  _onPressedFavorite(beer.isFavorite, beer.id);
+                                  setState(() {
+                                    beer.isFavorite = !beer.isFavorite;
+                                  });
+                                },
+                                icon: Icon(
+                                  beer.isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
                                   color: Colors.pinkAccent,
                                 ),
                               ),
