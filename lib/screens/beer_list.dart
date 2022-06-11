@@ -166,6 +166,14 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     setState(() {});
   }
 
+  void _dismissKeyboard() {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -185,99 +193,108 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(appTitle),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                canvasColor: colorPrimaryDefault,
-              ),
-              child: DropdownButton<String>(
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium!
-                    .copyWith(color: Colors.white),
-                value: sortDropdownValue,
-                icon: const Icon(
-                  Icons.filter_list,
-                  color: Colors.white,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onPanDown: (_) {
+        _dismissKeyboard();
+      },
+      onTap: () {
+        _dismissKeyboard();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text(appTitle),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  canvasColor: colorPrimaryDefault,
                 ),
-                underline: const SizedBox(height: 0),
-                elevation: 16,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    sortDropdownValue = newValue!;
-                    _sortFilter();
-                  });
-                },
-                items: <String>['Beer Color', 'name', 'ABV', 'IBU', 'pH']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(color: Colors.white),
-                    ),
-                  );
-                }).toList(),
+                child: DropdownButton<String>(
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium!
+                      .copyWith(color: Colors.white),
+                  value: sortDropdownValue,
+                  icon: const Icon(
+                    Icons.filter_list,
+                    color: Colors.white,
+                  ),
+                  underline: const SizedBox(height: 0),
+                  elevation: 16,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      sortDropdownValue = newValue!;
+                      _sortFilter();
+                    });
+                  },
+                  items: <String>['Beer Color', 'name', 'ABV', 'IBU', 'pH']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.white),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: _getBeerFuture,
-        builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('😔 ${snapshot.error}');
-          } else if (snapshot.hasData) {
-            final data = snapshot.data;
-            _allBeers = data!;
-            return Column(
-              children: [
-                _buildSearch(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Scrollbar(
-                          isAlwaysShown: true,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: _foodsSuggestion
-                                  .map(
-                                    (food) => _buildChip(
-                                      food.label,
-                                      food.icon,
-                                    ),
-                                  )
-                                  .toList(),
+          ],
+        ),
+        body: FutureBuilder(
+          future: _getBeerFuture,
+          builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('😔 ${snapshot.error}');
+            } else if (snapshot.hasData) {
+              final data = snapshot.data;
+              _allBeers = data!;
+              return Column(
+                children: [
+                  _buildSearch(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Scrollbar(
+                            isAlwaysShown: true,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: _foodsSuggestion
+                                    .map(
+                                      (food) => _buildChip(
+                                        food.label,
+                                        food.icon,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      _buildSortDirection(),
-                    ],
+                        _buildSortDirection(),
+                      ],
+                    ),
                   ),
-                ),
-                _buildResult(),
-              ],
-            );
-          } else {
-            return const Text('NONE');
-          }
-        },
+                  _buildResult(),
+                ],
+              );
+            } else {
+              return const Text('NONE');
+            }
+          },
+        ),
       ),
     );
   }
@@ -305,6 +322,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            _dismissKeyboard(),
           },
           child: Container(
             decoration: BoxDecoration(
@@ -350,6 +368,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                                 splashColor: Colors.transparent,
                                 splashRadius: 1,
                                 onPressed: () async {
+                                  _dismissKeyboard();
                                   _onPressedFavorite(beer.isFavorite, beer.id);
                                   setState(() {
                                     beer.isFavorite = !beer.isFavorite;
@@ -558,6 +577,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
         ),
         pressElevation: 0,
         onSelected: (bool value) {
+          _dismissKeyboard();
           _searchController.text = label;
           _searchController.selection = TextSelection.fromPosition(
               TextPosition(offset: _searchController.text.length));
