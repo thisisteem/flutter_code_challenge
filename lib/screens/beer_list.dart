@@ -31,7 +31,14 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     FoodChipModel(label: 'Fish', icon: Icons.fastfood),
     FoodChipModel(label: 'Burger', icon: Icons.cake),
   ];
-  final List<String> _sortList = ['Beer color', 'Name', 'ABV', 'IBU', 'pH'];
+  final List<String> _sortList = [
+    'Beer color',
+    'Name',
+    'ABV',
+    'IBU',
+    'pH',
+    'My Favorite'
+  ];
 
   late AnimationController _controller;
   final _searchController = TextEditingController();
@@ -138,6 +145,18 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                   : b.ph!.compareTo(a.ph!);
             }
             return result;
+          case 'My Favorite':
+            if (_isSortAscending) {
+              if (b.isFavorite) {
+                return 1;
+              }
+              return -1;
+            } else {
+              if (a.isFavorite) {
+                return 1;
+              }
+              return -1;
+            }
           default:
             // Beer Color
             if (a.ebc == null) {
