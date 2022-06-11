@@ -24,6 +24,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
   late List<BeerModel> _allBeers = [];
   late List<BeerModel> _foundBeers = [];
   bool _isSortAscending = true;
+  bool _showBackToTopButton = false;
   String sortDropdownValue = 'Beer color';
 
   final List<FoodChipModel> _foodsSuggestion = [
@@ -53,6 +54,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
 
   late AnimationController _controller;
   final _searchController = TextEditingController();
+  late ScrollController _scrollController;
 
   Future<List<BeerModel>> getBeers() async {
     const url = 'https://api.punkapi.com/v2/beers';
@@ -210,6 +212,11 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     }
   }
 
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 400), curve: Curves.linear);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -219,12 +226,24 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
       upperBound: 0.5,
     );
+
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          if (_scrollController.offset >= 300) {
+            _showBackToTopButton = true;
+          } else {
+            _showBackToTopButton = false;
+          }
+        });
+      });
   }
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -284,6 +303,12 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
             ),
           ],
         ),
+        floatingActionButton: _showBackToTopButton == false
+            ? null
+            : FloatingActionButton(
+                onPressed: _scrollToTop,
+                child: const Icon(Icons.arrow_upward),
+              ),
         body: FutureBuilder(
           future: _getBeerFuture,
           builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
@@ -593,6 +618,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
   Widget _buildResult() {
     return Expanded(
       child: ListView.builder(
+        controller: _scrollController,
         itemCount: _foundBeers.length,
         itemBuilder: (context, index) {
           BeerModel beer = _foundBeers[index];
