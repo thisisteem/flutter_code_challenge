@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_code_challenge/screens/beer_detail.dart';
 import 'package:http/http.dart' as http;
+import '../components/custom_search_textfield.dart';
 import '../functions/ebc_to_color_code.dart';
 import '/constants/texts.dart';
 import '/models/beer_model.dart';
@@ -16,14 +17,39 @@ class BeerList extends StatefulWidget {
 }
 
 class _BeerListState extends State<BeerList> {
+  late final Future<List<BeerModel>> _getBeerFuture = getBeers();
+  late List<BeerModel> _allBeers = [];
+  late List<BeerModel> _foundBeers = [];
+
   Future<List<BeerModel>> getBeers() async {
     const url = 'https://api.punkapi.com/v2/beers';
     final response = await http.get(Uri.parse(url));
 
     List<dynamic> data = jsonDecode(response.body);
-    List<BeerModel> beers =
-        data.map((data) => BeerModel.fromJson(data)).toList();
-    return beers;
+    _allBeers = data.map((data) => BeerModel.fromJson(data)).toList();
+    _foundBeers = _allBeers;
+
+    return _allBeers;
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<BeerModel> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = _allBeers;
+    } else {
+      results = _allBeers
+          .where((beer) =>
+              beer.name
+                  .toLowerCase()
+                  .contains(enteredKeyword.trim().toLowerCase()) ||
+              beer.tagline
+                  .toLowerCase()
+                  .contains(enteredKeyword.trim().toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      _foundBeers = results;
+    });
   }
 
   @override
@@ -34,6 +60,7 @@ class _BeerListState extends State<BeerList> {
         title: const Text(appTitle),
       ),
       body: FutureBuilder(
+        future: _getBeerFuture,
         builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
@@ -41,18 +68,17 @@ class _BeerListState extends State<BeerList> {
             return Text('😔 ${snapshot.error}');
           } else if (snapshot.hasData) {
             final data = snapshot.data;
-            return ListView.builder(
-              itemCount: data!.length,
-              itemBuilder: (context, index) {
-                BeerModel beer = snapshot.data![index];
-                return _buildBeer(beer);
-              },
+            _allBeers = data!;
+            return Column(
+              children: [
+                _buildSearch(),
+                _buildResult(),
+              ],
             );
           } else {
             return const Text('NONE');
           }
         },
-        future: getBeers(),
       ),
     );
   }
@@ -189,6 +215,25 @@ class _BeerListState extends State<BeerList> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSearch() {
+    return CustomSearchTextField(
+      placeholder: 'Search name, ABV, IBU, pH...',
+      onChanged: (value) => _runFilter(value),
+    );
+  }
+
+  Widget _buildResult() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: _foundBeers.length,
+        itemBuilder: (context, index) {
+          BeerModel beer = _foundBeers[index];
+          return _buildBeer(beer);
+        },
       ),
     );
   }
