@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_code_challenge/providers/beer_change_notifier.dart';
 import 'package:flutter_code_challenge/themes/theme.dart';
+import 'package:flutter_code_challenge/utils/beer_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import 'constants/texts.dart';
 import 'screens/beer_list.dart';
@@ -32,7 +35,10 @@ class MyApp extends StatelessWidget {
         title: appTitle,
         debugShowCheckedModeBanner: false,
         theme: YourBeersTheme.themeData(),
-        home: const BeerList(),
+        home: ChangeNotifierProvider(
+          create: (_) => BeerChangeNotifier(BeerService()),
+          child: const BeerList(),
+        ),
       ),
     );
   }
