@@ -35,10 +35,7 @@ class MyApp extends StatelessWidget {
         title: appTitle,
         debugShowCheckedModeBanner: false,
         theme: YourBeersTheme.themeData(),
-        home: ChangeNotifierProvider(
-          create: (_) => BeerChangeNotifier(BeerService()),
-          child: const BeerList(),
-        ),
+        home: const BeerList(),
       ),
     );
   }
