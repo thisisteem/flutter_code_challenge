@@ -301,6 +301,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            _buildSortDirection(),
           ],
         ),
         floatingActionButton: _showBackToTopButton == false
@@ -323,7 +324,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                 children: [
                   _buildSearch(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       children: [
                         Expanded(
@@ -357,7 +358,6 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        _buildSortDirection(),
                       ],
                     ),
                   ),
@@ -420,54 +420,59 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Text(
-                                beer.name,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(color: Colors.black87),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                constraints: const BoxConstraints(),
-                                splashColor: Colors.transparent,
-                                splashRadius: 1,
-                                onPressed: () async {
-                                  _dismissKeyboard();
-                                  _onPressedFavorite(beer.isFavorite, beer.id);
-                                  setState(() {
-                                    beer.isFavorite = !beer.isFavorite;
-                                  });
-                                },
-                                icon: Icon(
-                                  beer.isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: Colors.pinkAccent,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    beer.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(color: Colors.black87),
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(),
+                                    splashColor: Colors.transparent,
+                                    splashRadius: 1,
+                                    onPressed: () async {
+                                      _dismissKeyboard();
+                                      _onPressedFavorite(
+                                          beer.isFavorite, beer.id);
+                                      setState(() {
+                                        beer.isFavorite = !beer.isFavorite;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      beer.isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: Colors.pinkAccent,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              beer.tagline,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(color: Colors.grey),
                             ),
                           ],
-                        ),
-                        Text(
-                          beer.tagline,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(
-                                  color: Colors.grey,
-                                  fontStyle: FontStyle.italic),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
