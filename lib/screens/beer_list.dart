@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_code_challenge/components/skeleton_container.dart';
@@ -259,7 +260,13 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text(appTitle),
+          title: Text(
+            appTitle,
+            style: Theme.of(context)
+                .textTheme
+                .displayLarge!
+                .copyWith(color: Colors.white),
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),

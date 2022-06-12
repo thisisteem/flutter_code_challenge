@@ -1,2 +1,2 @@
-const appTitle = 'Your Beers';
+const appTitle = 'LET IT BEER';
 const randomTitle = 'Random Beer';
