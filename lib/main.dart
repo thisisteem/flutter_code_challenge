@@ -4,7 +4,6 @@ import 'package:flutter_code_challenge/providers/beer_change_notifier.dart';
 import 'package:flutter_code_challenge/themes/theme.dart';
 import 'package:flutter_code_challenge/utils/beer_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 import 'constants/texts.dart';
 import 'screens/beer_list.dart';
