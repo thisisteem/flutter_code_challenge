@@ -49,26 +49,25 @@ class _RandomBeerState extends State<RandomBeer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(randomTitle),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-        child: Stack(
-          children: [
-            isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : _buildBeer(_beer),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: _buildButton(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+          child: Stack(
+            children: [
+              isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _buildBeer(_beer),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _buildButton(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
