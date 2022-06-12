@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_code_challenge/providers/beer_change_notifier.dart';
 import 'package:flutter_code_challenge/themes/theme.dart';
-import 'package:flutter_code_challenge/utils/beer_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'constants/texts.dart';
-import 'screens/beer_list.dart';
 import 'screens/home.dart';
 import 'utils/favorite_beer_preferences.dart';
 
