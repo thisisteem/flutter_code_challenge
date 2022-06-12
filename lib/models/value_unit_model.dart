@@ -4,8 +4,8 @@ part 'value_unit_model.g.dart';
 
 @JsonSerializable()
 class ValueUnitModel {
-  final num value;
-  final String unit;
+  final num? value;
+  final String? unit;
 
   ValueUnitModel({
     required this.value,

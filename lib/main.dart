@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'constants/texts.dart';
 import 'screens/beer_list.dart';
+import 'screens/home.dart';
 import 'utils/favorite_beer_preferences.dart';
 
 Future main() async {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         title: appTitle,
         debugShowCheckedModeBanner: false,
         theme: YourBeersTheme.themeData(),
-        home: const BeerList(),
+        home: const Home(),
       ),
     );
   }

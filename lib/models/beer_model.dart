@@ -13,7 +13,7 @@ class BeerModel {
   final String tagline;
   final String firstBrewed;
   final String description;
-  final String imageUrl;
+  final String? imageUrl;
   final num? abv;
   final num? ibu;
   final num? targetFg;
@@ -21,7 +21,7 @@ class BeerModel {
   final num? ebc;
   final num? srm;
   final num? ph;
-  final num attenuationLevel;
+  final num? attenuationLevel;
   final ValueUnitModel volume;
   final ValueUnitModel boilVolume;
   final MethodModel method;

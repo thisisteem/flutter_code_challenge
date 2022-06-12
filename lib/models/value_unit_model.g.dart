@@ -8,8 +8,8 @@ part of 'value_unit_model.dart';
 
 ValueUnitModel _$ValueUnitModelFromJson(Map<String, dynamic> json) =>
     ValueUnitModel(
-      value: json['value'] as num,
-      unit: json['unit'] as String,
+      value: json['value'] as num?,
+      unit: json['unit'] as String?,
     );
 
 Map<String, dynamic> _$ValueUnitModelToJson(ValueUnitModel instance) =>

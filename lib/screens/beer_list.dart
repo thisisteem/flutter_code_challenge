@@ -409,7 +409,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                 Expanded(
                   child: CachedNetworkImage(
                     height: 130,
-                    imageUrl: beer.imageUrl,
+                    imageUrl: beer.imageUrl!,
                   ),
                 ),
                 Expanded(

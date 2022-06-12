@@ -126,7 +126,7 @@ class _BeerDetailState extends State<BeerDetail> {
                 child: Column(
                   children: [
                     _buildColorTag(beer.ebc),
-                    _buildImage(beer.imageUrl)
+                    _buildImage(beer.imageUrl!)
                   ],
                 ),
               ),
@@ -304,7 +304,7 @@ class _BeerDetailState extends State<BeerDetail> {
             ),
           ),
           BulletList(
-            strings: [beer.ingredients.yeast],
+            strings: [beer.ingredients.yeast!],
           ),
         ],
       ),

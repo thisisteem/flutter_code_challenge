@@ -12,7 +12,7 @@ BeerModel _$BeerModelFromJson(Map<String, dynamic> json) => BeerModel(
       tagline: json['tagline'] as String,
       firstBrewed: json['first_brewed'] as String,
       description: json['description'] as String,
-      imageUrl: json['image_url'] as String,
+      imageUrl: json['image_url'] as String?,
       abv: json['abv'] as num?,
       ibu: json['ibu'] as num?,
       targetFg: json['target_fg'] as num?,
@@ -20,7 +20,7 @@ BeerModel _$BeerModelFromJson(Map<String, dynamic> json) => BeerModel(
       ebc: json['ebc'] as num?,
       srm: json['srm'] as num?,
       ph: json['ph'] as num?,
-      attenuationLevel: json['attenuation_level'] as num,
+      attenuationLevel: json['attenuation_level'] as num?,
       volume: ValueUnitModel.fromJson(json['volume'] as Map<String, dynamic>),
       boilVolume:
           ValueUnitModel.fromJson(json['boil_volume'] as Map<String, dynamic>),

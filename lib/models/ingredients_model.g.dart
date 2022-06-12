@@ -14,7 +14,7 @@ IngredientsModel _$IngredientsModelFromJson(Map<String, dynamic> json) =>
       hops: (json['hops'] as List<dynamic>)
           .map((e) => HopsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      yeast: json['yeast'] as String,
+      yeast: json['yeast'] as String?,
     );
 
 Map<String, dynamic> _$IngredientsModelToJson(IngredientsModel instance) =>

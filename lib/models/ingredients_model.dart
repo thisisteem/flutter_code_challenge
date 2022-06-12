@@ -8,7 +8,7 @@ part 'ingredients_model.g.dart';
 class IngredientsModel {
   final List<MaltModel> malt;
   final List<HopsModel> hops;
-  final String yeast;
+  final String? yeast;
 
   IngredientsModel({
     required this.malt,
