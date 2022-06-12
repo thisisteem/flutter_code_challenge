@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_code_challenge/constants/colors.dart';
 import 'package:flutter_code_challenge/screens/beer_list.dart';
 
+import 'my_favorite.dart';
 import 'random_beer.dart';
 
 class Home extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> {
   final screens = [
     const BeerList(),
     const RandomBeer(),
+    const MyFavorite(),
   ];
 
   @override
@@ -24,6 +26,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: colorPrimaryDefault,
         onTap: (value) => setState(() {
           currentIndex = value;
@@ -37,6 +40,10 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.question_mark_rounded),
             label: 'Random Beer',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'My Favorite',
           ),
         ],
         unselectedItemColor: Colors.grey,
