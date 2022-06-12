@@ -259,122 +259,74 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            appTitle,
-            style: Theme.of(context)
-                .textTheme
-                .displayLarge!
-                .copyWith(color: Colors.white),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  canvasColor: colorPrimaryDefault,
-                ),
-                child: DropdownButton<String>(
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(color: Colors.white),
-                  value: sortDropdownValue,
-                  icon: const Icon(
-                    Icons.filter_list,
-                    color: Colors.white,
-                  ),
-                  underline: const SizedBox(height: 0),
-                  elevation: 16,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      sortDropdownValue = newValue!;
-                      _sortFilter();
-                    });
-                  },
-                  items:
-                      _sortList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(color: Colors.white),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            _buildSortDirection(),
-          ],
-        ),
         floatingActionButton: _showBackToTopButton == false
             ? null
             : FloatingActionButton(
                 onPressed: _scrollToTop,
                 child: const Icon(Icons.arrow_upward),
               ),
-        body: FutureBuilder(
-          future: _getBeerFuture,
-          builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return _buildSkeleton();
-            } else if (snapshot.hasError) {
-              return Text('😔 ${snapshot.error}');
-            } else if (snapshot.hasData) {
-              final data = snapshot.data;
-              _allBeers = data!;
-              return Column(
-                children: [
-                  _buildSearch(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  const Text('Food Pairing'),
-                                  ..._foodsSuggestion.map(
-                                    (food) => _buildChip(
-                                      food.label,
-                                      food.icon,
+        body: SafeArea(
+          child: FutureBuilder(
+            future: _getBeerFuture,
+            builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return _buildSkeleton();
+              } else if (snapshot.hasError) {
+                return Text('😔 ${snapshot.error}');
+              } else if (snapshot.hasData) {
+                final data = snapshot.data;
+                _allBeers = data!;
+                return Column(
+                  children: [
+                    _buildSearch(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  children: [
+                                    const Text('Food Pairing'),
+                                    ..._foodsSuggestion.map(
+                                      (food) => _buildChip(
+                                        food.label,
+                                        food.icon,
+                                      ),
                                     ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 6),
-                                    child: VerticalDivider(
-                                      thickness: 2,
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 6),
+                                      child: VerticalDivider(
+                                        thickness: 2,
+                                      ),
                                     ),
-                                  ),
-                                  const Text('Recommend Beer'),
-                                  ..._beerSuggestion.map(
-                                    (food) => _buildChip(
-                                      food.label,
-                                      food.icon,
+                                    const Text('Recommend Beer'),
+                                    ..._beerSuggestion.map(
+                                      (food) => _buildChip(
+                                        food.label,
+                                        food.icon,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          _buildSortDirection(),
+                        ],
+                      ),
                     ),
-                  ),
-                  _buildResult(),
-                ],
-              );
-            } else {
-              return const Text('NONE');
-            }
-          },
+                    _buildResult(),
+                  ],
+                );
+              } else {
+                return const Text('NONE');
+              }
+            },
+          ),
         ),
       ),
     );
@@ -550,59 +502,108 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
   Widget _buildSearch() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
-      child: TextField(
-        style: Theme.of(context).textTheme.headlineSmall,
-        cursorColor: Colors.black12,
-        onChanged: (value) => _searchFilter(value),
-        textInputAction: TextInputAction.done,
-        controller: _searchController,
-        decoration: InputDecoration(
-          suffixIcon: Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              icon: const Icon(
-                Icons.clear,
-                color: colorPrimaryDefault,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              style: Theme.of(context).textTheme.headlineSmall,
+              cursorColor: Colors.black12,
+              onChanged: (value) => _searchFilter(value),
+              textInputAction: TextInputAction.done,
+              controller: _searchController,
+              decoration: InputDecoration(
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: _searchController.text == ''
+                      ? null
+                      : IconButton(
+                          icon: const Icon(
+                            Icons.clear,
+                            color: colorPrimaryDefault,
+                            size: 18,
+                          ),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () {
+                            _searchController.text = '';
+                            _searchFilter('');
+                          },
+                        ),
+                ),
+                suffixIconConstraints:
+                    const BoxConstraints(minWidth: 10, minHeight: 10),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: colorPrimaryDefault,
+                  size: 18,
+                ),
+                prefixIconConstraints:
+                    const BoxConstraints(minWidth: 35, minHeight: 10),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Search by name, tagline, food...',
+                hintStyle: Theme.of(context)
+                    .textTheme
+                    .labelSmall!
+                    .copyWith(color: Colors.grey),
+                contentPadding: const EdgeInsets.only(
+                  left: 14,
+                  right: -20,
+                  top: -10,
+                  bottom: -10,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: colorPrimaryDefault),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.black26),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.redAccent),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.redAccent),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () {
-                _searchController.text = '';
-                _searchFilter('');
-              },
             ),
           ),
-          suffixIconConstraints:
-              const BoxConstraints(minWidth: 10, minHeight: 10),
-          prefixIcon: const Icon(
-            Icons.search,
-            color: colorPrimaryDefault,
+          const SizedBox(width: 12),
+          DropdownButton<String>(
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium!
+                .copyWith(color: Colors.black87),
+            value: sortDropdownValue,
+            icon: const Icon(
+              Icons.filter_alt_outlined,
+              color: Colors.black87,
+            ),
+            underline: const SizedBox(height: 0),
+            elevation: 16,
+            onChanged: (String? newValue) {
+              setState(() {
+                sortDropdownValue = newValue!;
+                _sortFilter();
+              });
+            },
+            items: _sortList.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: Colors.black87),
+                ),
+              );
+            }).toList(),
           ),
-          filled: true,
-          fillColor: Colors.white,
-          hintText: 'Search by name, tagline, food...',
-          hintStyle: Theme.of(context)
-              .textTheme
-              .bodySmall!
-              .copyWith(color: Colors.grey),
-          contentPadding: const EdgeInsets.only(left: 14.0, right: 14),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: colorPrimaryDefault),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.black26),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
+        ],
       ),
     );
   }
