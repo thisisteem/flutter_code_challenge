@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_code_challenge/constants/colors.dart';
 import 'package:flutter_code_challenge/screens/beer_list.dart';
 
-import '../constants/texts.dart';
 import 'random_beer.dart';
 
 class Home extends StatefulWidget {
