@@ -50,7 +50,6 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     'ABV',
     'IBU',
     'pH',
-    'My Favorite'
   ];
 
   late AnimationController _controller;
@@ -164,18 +163,6 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                   : b.ph!.compareTo(a.ph!);
             }
             return result;
-          case 'My Favorite':
-            if (_isSortAscending) {
-              if (b.isFavorite) {
-                return 1;
-              }
-              return -1;
-            } else {
-              if (a.isFavorite) {
-                return 1;
-              }
-              return -1;
-            }
           default:
             // Beer Color
             if (a.ebc == null) {
