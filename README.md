@@ -1,6 +1,6 @@
 # flutter_code_challenge
 
-A new Flutter project.
+A Flutter project using API https://punkapi.com/documentation/v2
 
 ## Getting Started
 
