@@ -18,7 +18,6 @@ class MyFavorite extends StatefulWidget {
 }
 
 class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
-  // late final Future<List<BeerModel>> _getBeerFuture = getBeers();
   late List<BeerModel> _allBeers = [];
   late List<BeerModel> _favoriteBeers;
   bool _showBackToTopButton = false;
@@ -56,8 +55,6 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
     setState(() {
       _isLoading = false;
     });
-
-    // return _favoriteBeers;
   }
 
   void _sortFilter() {
@@ -159,26 +156,6 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
               ),
         body: SafeArea(
           child: _isLoading ? _buildSkeleton() : _buildResult(),
-          // child: FutureBuilder(
-          //   future: _getBeerFuture,
-          //   builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return _buildSkeleton();
-          //     } else if (snapshot.hasError) {
-          //       return Text('😔 ${snapshot.error}');
-          //     } else if (snapshot.hasData) {
-          //       final data = snapshot.data;
-          //       _allBeers = data!;
-          //       return Column(
-          //         children: [
-          //           _buildResult(),
-          //         ],
-          //       );
-          //     } else {
-          //       return const Text('NONE');
-          //     }
-          //   },
-          // ),
         ),
       ),
     );
@@ -375,7 +352,6 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
       itemBuilder: (context, index) {
         return Container(
           padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
-          // height: MediaQuery.of(context).size.height * 0.22,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

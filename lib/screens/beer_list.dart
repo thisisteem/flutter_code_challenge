@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_code_challenge/components/skeleton_container.dart';
@@ -10,7 +9,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../functions/ebc_to_color_code.dart';
 import '../models/food_chip_model.dart';
 import '../utils/favorite_beer_preferences.dart';
-import '/constants/texts.dart';
 import '/models/beer_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -22,7 +20,6 @@ class BeerList extends StatefulWidget {
 }
 
 class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
-  // late final Future<List<BeerModel>> _getBeerFuture = getBeers();
   late List<BeerModel> _allBeers = [];
   late List<BeerModel> _foundBeers = [];
   bool _isSortAscending = true;
@@ -87,8 +84,6 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     setState(() {
       _isLoading = false;
     });
-
-    // return _allBeers;
   }
 
   void _searchFilter(String enteredKeyword) {
@@ -326,67 +321,6 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                     _buildResult(),
                   ],
                 ),
-          // child: FutureBuilder(
-          //   future: _getBeerFuture,
-          //   builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return _buildSkeleton();
-          //     } else if (snapshot.hasError) {
-          //       return Text('😔 ${snapshot.error}');
-          //     } else if (snapshot.hasData) {
-          //       final data = snapshot.data;
-          //       _allBeers = data!;
-          //       return Column(
-          //         children: [
-          //           _buildSearch(),
-          //           Padding(
-          //             padding: const EdgeInsets.only(left: 16),
-          //             child: Row(
-          //               children: [
-          //                 Expanded(
-          //                   child: SingleChildScrollView(
-          //                     scrollDirection: Axis.horizontal,
-          //                     child: IntrinsicHeight(
-          //                       child: Row(
-          //                         children: [
-          //                           const Text('Food Pairing'),
-          //                           ..._foodsSuggestion.map(
-          //                             (food) => _buildChip(
-          //                               food.label,
-          //                               food.icon,
-          //                             ),
-          //                           ),
-          //                           const Padding(
-          //                             padding:
-          //                                 EdgeInsets.symmetric(vertical: 6),
-          //                             child: VerticalDivider(
-          //                               thickness: 2,
-          //                             ),
-          //                           ),
-          //                           const Text('Style'),
-          //                           ..._beerStyle.map(
-          //                             (food) => _buildChip(
-          //                               food.label,
-          //                               food.icon,
-          //                             ),
-          //                           ),
-          //                         ],
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //                 _buildSortDirection(),
-          //               ],
-          //             ),
-          //           ),
-          //           _buildResult(),
-          //         ],
-          //       );
-          //     } else {
-          //       return const Text('NONE');
-          //     }
-          //   },
-          // ),
         ),
       ),
     );
@@ -768,7 +702,6 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
       itemBuilder: (context, index) {
         return Container(
           padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
-          // height: MediaQuery.of(context).size.height * 0.22,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

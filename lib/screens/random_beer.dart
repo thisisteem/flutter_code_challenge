@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import '../constants/texts.dart';
 import '../models/beer_model.dart';
 
 class RandomBeer extends StatefulWidget {
@@ -15,7 +14,6 @@ class RandomBeer extends StatefulWidget {
 }
 
 class _RandomBeerState extends State<RandomBeer> {
-  // late final Future<BeerModel> _getBeerFuture = getBeers();
   late BeerModel _beer;
 
   bool isLoading = false;
