@@ -36,7 +36,7 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
     FoodChipModel(label: 'Burger', icon: Icons.cake),
   ];
 
-  final List<FoodChipModel> _beerSuggestion = [
+  final List<FoodChipModel> _beerStyle = [
     FoodChipModel(label: 'IPA', icon: null),
     FoodChipModel(label: 'Porter', icon: null),
     FoodChipModel(label: 'Lager', icon: null),
@@ -303,8 +303,8 @@ class _BeerListState extends State<BeerList> with TickerProviderStateMixin {
                                         thickness: 2,
                                       ),
                                     ),
-                                    const Text('Recommend Beer'),
-                                    ..._beerSuggestion.map(
+                                    const Text('Style'),
+                                    ..._beerStyle.map(
                                       (food) => _buildChip(
                                         food.label,
                                         food.icon,
