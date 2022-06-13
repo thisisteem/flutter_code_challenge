@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_code_challenge/components/skeleton_container.dart';
 import 'package:flutter_code_challenge/screens/beer_detail.dart';
 import 'package:http/http.dart' as http;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../functions/ebc_to_color_code.dart';
 import '../utils/favorite_beer_preferences.dart';
 import '/models/beer_model.dart';
@@ -17,16 +18,25 @@ class MyFavorite extends StatefulWidget {
 }
 
 class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
-  late final Future<List<BeerModel>> _getBeerFuture = getBeers();
+  // late final Future<List<BeerModel>> _getBeerFuture = getBeers();
   late List<BeerModel> _allBeers = [];
-  late List<BeerModel> _favoriteBeers = [];
+  late List<BeerModel> _favoriteBeers;
   bool _showBackToTopButton = false;
   String sortDropdownValue = 'Beer color';
+  bool _isLoading = false;
 
   late AnimationController _controller;
   late ScrollController _scrollController;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
-  Future<List<BeerModel>> getBeers() async {
+  void getBeers() async {
+    _favoriteBeers = [];
+
+    setState(() {
+      _isLoading = true;
+    });
+
     const url = 'https://api.punkapi.com/v2/beers';
     final response = await http.get(Uri.parse(url));
     var favoriteBeerList = FavoriteBeerPreferences.getFavorite();
@@ -43,7 +53,11 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
 
     _sortFilter();
 
-    return _favoriteBeers;
+    setState(() {
+      _isLoading = false;
+    });
+
+    // return _favoriteBeers;
   }
 
   void _sortFilter() {
@@ -68,8 +82,17 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
     }
   }
 
-  void _reloadPage() {
+  void _reloadPage() async {
     setState(() {});
+    await Future.delayed(const Duration(milliseconds: 500));
+    getBeers();
+
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    _refreshController.loadComplete();
   }
 
   void _dismissKeyboard() {
@@ -88,6 +111,8 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    getBeers();
 
     _controller = AnimationController(
       vsync: this,
@@ -133,26 +158,27 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
                 child: const Icon(Icons.arrow_upward),
               ),
         body: SafeArea(
-          child: FutureBuilder(
-            future: _getBeerFuture,
-            builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return _buildSkeleton();
-              } else if (snapshot.hasError) {
-                return Text('😔 ${snapshot.error}');
-              } else if (snapshot.hasData) {
-                final data = snapshot.data;
-                _allBeers = data!;
-                return Column(
-                  children: [
-                    _buildResult(),
-                  ],
-                );
-              } else {
-                return const Text('NONE');
-              }
-            },
-          ),
+          child: _isLoading ? _buildSkeleton() : _buildResult(),
+          // child: FutureBuilder(
+          //   future: _getBeerFuture,
+          //   builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return _buildSkeleton();
+          //     } else if (snapshot.hasError) {
+          //       return Text('😔 ${snapshot.error}');
+          //     } else if (snapshot.hasData) {
+          //       final data = snapshot.data;
+          //       _allBeers = data!;
+          //       return Column(
+          //         children: [
+          //           _buildResult(),
+          //         ],
+          //       );
+          //     } else {
+          //       return const Text('NONE');
+          //     }
+          //   },
+          // ),
         ),
       ),
     );
@@ -327,13 +353,18 @@ class _MyFavoriteState extends State<MyFavorite> with TickerProviderStateMixin {
 
   Widget _buildResult() {
     return Expanded(
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount: _favoriteBeers.length,
-        itemBuilder: (context, index) {
-          BeerModel beer = _favoriteBeers[index];
-          return _buildBeer(beer);
-        },
+      child: SmartRefresher(
+        controller: _refreshController,
+        onRefresh: _reloadPage,
+        onLoading: _onLoading,
+        child: ListView.builder(
+          controller: _scrollController,
+          itemCount: _favoriteBeers.length,
+          itemBuilder: (context, index) {
+            BeerModel beer = _favoriteBeers[index];
+            return _buildBeer(beer);
+          },
+        ),
       ),
     );
   }
